@@ -11,6 +11,15 @@ public struct HexCoordinates
 
 	public int Y { get { return -X - Z; } }
 
+	public static HexCoordinates[] neighbours = {
+		new HexCoordinates(0, 1),
+		new HexCoordinates(1, 0),
+		new HexCoordinates(1, -1),
+		new HexCoordinates(0, -1),
+		new HexCoordinates(-1, 0),
+		new HexCoordinates(-1, 1)
+	};
+
 	public HexCoordinates (int x, int z)
 	{
 		this.x = x;
@@ -57,7 +66,7 @@ public struct HexCoordinates
 
 	public Vector3 CentreToWorldPosition () {
 		Vector3 position = new Vector3 (0, 0, 0);
-		position.x = (x+z*0.5f-z/2) * (HexMetrics.innerRadius * 2f);
+		position.x = (x+z*0.5f) * (HexMetrics.innerRadius * 2f);
 		position.y = 0f;
 		position.z = z * (HexMetrics.outerRadius * 1.5f);
 		return position;
@@ -87,11 +96,27 @@ public struct HexCoordinates
 		}
 	}
 
-	public override bool Equals(Object o) {
+	public static HexCoordinates operator + (HexCoordinates h1, HexCoordinates h2) {
+		return new HexCoordinates (h1.X + h2.X, h1.Z + h2.Z);
+	}
+		
+	public override bool Equals(object o) {
 		try {
 			return (bool) (this == (HexCoordinates) o);
 		} catch {
 			return false;
+		}
+	}
+
+	public override int GetHashCode()
+	{
+		unchecked // Overflow is fine, just wrap
+		{
+			int hash = 17;
+			// Suitable nullity checks etc, of course :)
+			hash = hash * 23 + x.GetHashCode();
+			hash = hash * 23 + z.GetHashCode();
+			return hash;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class HexMapEditor : MonoBehaviour {
 
@@ -9,21 +10,42 @@ public class HexMapEditor : MonoBehaviour {
 
 	private Color activeColor;
 
+	bool prevClick;
+
 	void Awake () {
 		SelectColor(0);
 	}
 
 	void Update () {
-		if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) {
-			HandleInput();
+		
+		if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject ()) {
+			if (prevClick == true) {
+				HandleInput ();
+			} else {
+				ResetPath ();
+				HandleInput ();
+			}
+			prevClick = true;
+		} else {
+			prevClick = false;
 		}
+	}
+
+	void ResetPath() {
+		GameInformation.currentPath = new Path ();
 	}
 
 	void HandleInput () {
 		Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
 		if (Physics.Raycast(inputRay, out hit)) {
-			hexGrid.ColorCell(hit.point, activeColor);
+			HexCoordinates hexCoords = HexCoordinates.FromPosition (hit.point);
+			if (!GameInformation.currentPath.InPath(hexCoords) && (hexCoords == new HexCoordinates(0, 0) || GameInformation.currentPath.hexCoords.Length > 0)) {
+				List<HexCoordinates> coordList = new List<HexCoordinates> ();
+				coordList.AddRange (GameInformation.currentPath.hexCoords);
+				coordList.Add (hexCoords);
+				GameInformation.currentPath = new Path (coordList.ToArray());
+			}
 		}
 	}
 

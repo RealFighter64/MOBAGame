@@ -51,12 +51,19 @@ public class HexGrid : MonoBehaviour
 		label.rectTransform.SetParent(gridCanvas.transform, false);
 		label.rectTransform.anchoredPosition =
 			new Vector2(position.x, position.z);
-		//label.text = cell.coordinates.ToStringOnSeparateLines();
+		label.text = cell.coordinates.ToStringOnSeparateLines();
 	}
 
 	public void ColorCell (Vector3 position, Color color) {
 		position = transform.InverseTransformPoint(position);
 		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
+		int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
+		HexCell cell = cells[index];
+		cell.color = color;
+		hexMesh.Triangulate(cells);
+	}
+
+	public void ColorCell (HexCoordinates coordinates, Color color) {
 		int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
 		HexCell cell = cells[index];
 		cell.color = color;
