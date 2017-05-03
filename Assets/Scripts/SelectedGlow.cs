@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SelectedGlow : MonoBehaviour {
-
 	LineRenderer[] lineRenderers;
 
 	// Use this for initialization
-	public void Init (HexCoordinates coords) {
+	public void Init (HexCoordinates coords, bool valid) {
 		lineRenderers = new LineRenderer[6];
 		for (int i = 0; i < 6; i++) {
 			if (!GameInformation.currentPath.InPath (coords + HexCoordinates.neighbours [i])) {
@@ -15,8 +14,6 @@ public class SelectedGlow : MonoBehaviour {
 				tempObject.transform.parent = transform;
 				lineRenderers [i] = tempObject.AddComponent<LineRenderer> ();
 				lineRenderers [i].material = GameResources.glowMaterial;
-				lineRenderers [i].startColor = Color.yellow;
-				lineRenderers [i].endColor = Color.yellow;
 				lineRenderers [i].useWorldSpace = false;
 				lineRenderers [i].numPositions = 2;
 				lineRenderers [i].widthMultiplier = 0.1F;
@@ -25,6 +22,14 @@ public class SelectedGlow : MonoBehaviour {
 				vertices [0] = coords.GetWorldVertices () [i];
 				vertices [1] = coords.GetWorldVertices () [i + 1];
 				lineRenderers [i].SetPositions (vertices);
+
+				if (valid) {
+					lineRenderers [i].startColor = Color.yellow;
+					lineRenderers [i].endColor = Color.yellow;
+				} else {
+					lineRenderers [i].startColor = Color.red;
+					lineRenderers [i].endColor = Color.red;
+				}
 			}
 		}
 	}
@@ -35,8 +40,8 @@ public class SelectedGlow : MonoBehaviour {
 		}
 	}
 
-	public void UpdateCell(HexCoordinates coords) {
+	public void UpdateCell(HexCoordinates coords, bool valid) {
 		Reset (coords);
-		Init (coords);
+		Init (coords, valid);
 	}
 }

@@ -7,12 +7,16 @@ using UnityEngine;
 /// </summary>
 public class GameInformation : MonoBehaviour {
 
-	public static Path currentPath;
+	public Character currCharacter;
+
+	public static CharacterPath currentPath;
 	public static HexGrid currentHexGrid;
+	public static Character currentCharacter;
 
 	void Awake () {
 		DontDestroyOnLoad (gameObject);
 		currentHexGrid = Instantiate (GameResources.hexGrid).GetComponent<HexGrid> ();
-		currentPath = new Path ();
+		currentPath = new CharacterPath ();
+		currentCharacter = currCharacter;
 	}
 }

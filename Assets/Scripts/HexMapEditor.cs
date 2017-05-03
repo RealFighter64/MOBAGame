@@ -32,7 +32,7 @@ public class HexMapEditor : MonoBehaviour {
 	}
 
 	void ResetPath() {
-		GameInformation.currentPath = new Path ();
+		GameInformation.currentPath = new CharacterPath ();
 	}
 
 	void HandleInput () {
@@ -44,7 +44,7 @@ public class HexMapEditor : MonoBehaviour {
 				List<HexCoordinates> coordList = new List<HexCoordinates> ();
 				coordList.AddRange (GameInformation.currentPath.hexCoords);
 				coordList.Add (hexCoords);
-				GameInformation.currentPath = new Path (coordList.ToArray());
+				GameInformation.currentPath = new CharacterPath (coordList.ToArray());
 			}
 		}
 	}
