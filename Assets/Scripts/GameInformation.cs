@@ -7,17 +7,35 @@ using UnityEngine;
 /// </summary>
 public class GameInformation : MonoBehaviour {
 
-	public static Path currentPath;
+	public Character initialCharacter;
+
+	public static CharacterPath currentPath;
+	public static HexGrid currentHexGrid;
+
+	public static List<Character> characters;
 
 	void Awake () {
 		DontDestroyOnLoad (gameObject);
-		HexCoordinates[] coords = new HexCoordinates[6];
-		coords [0] = new HexCoordinates (0, 0);
-		coords [1] = new HexCoordinates (1, 0);
-		coords [2] = new HexCoordinates (1, 1);
-		coords [3] = new HexCoordinates (1, 2);
-		coords [4] = new HexCoordinates (1, 3);
-		coords [5] = new HexCoordinates (2, 3);
-		currentPath = new Path (coords);
+		currentHexGrid = Instantiate (GameResources.hexGrid).GetComponent<HexGrid> ();
+		currentPath = new CharacterPath ();
+		characters = new List<Character> ();
+		SpawnCharacter (initialCharacter);
+	}
+
+	public static void SpawnCharacter(Character character) {
+		characters.Add (character);
+	}
+
+	public static int IndexOfCharacter(Character character) {
+		return characters.IndexOf (character);
+	}
+
+	public static int IndexOfCharacter(HexCoordinates coords) {
+		for (int i = 0; i < characters.Count; i++) {
+			if (characters [i].position == coords) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }

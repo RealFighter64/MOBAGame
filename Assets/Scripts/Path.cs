@@ -11,6 +11,10 @@ public class Path
 		this.hexCoords = hexCoords;
 	}
 
+	public Path () {
+		this.hexCoords = new HexCoordinates[0];
+	}
+
 	public bool InPath (HexCoordinates coords) {
 		for (int i = 0; i < hexCoords.Length; i++) {
 			if (hexCoords [i] == coords) {
@@ -18,6 +22,14 @@ public class Path
 			}
 		}
 		return false;
+	}
+
+	public void Print() {
+		string stringToPrint = "Path: ";
+		for (int i = 0; i < hexCoords.Length; i++) {
+			stringToPrint += hexCoords[i].ToString () + ", ";
+		}
+		Debug.Log (stringToPrint);
 	}
 }
 

@@ -6,9 +6,24 @@ public class HexCell : MonoBehaviour
 	public HexCoordinates coordinates;
 	public Color color;
 
-	void Start () {
+	SelectedGlow selectedGlow;
+
+	void Start() {
+		selectedGlow = GetComponentInChildren<SelectedGlow> ();
+	}
+
+	void Update () {
 		if (GameInformation.currentPath.InPath (coordinates)) {
-			GetComponentInChildren<SelectedGlow> ().Init (this.coordinates);
+			if (GameInformation.currentPath.ValidPath ()) {
+				selectedGlow.UpdateCell (this.coordinates, true);
+				GameInformation.currentHexGrid.ColorCell (coordinates, new Color (1F, 0.9F, 0.4F));
+			} else {
+				selectedGlow.UpdateCell (this.coordinates, false);
+				GameInformation.currentHexGrid.ColorCell (coordinates, new Color (1F, 0.6F, 0.6F));
+			}
+		} else {
+			selectedGlow.Reset (this.coordinates);
+			GameInformation.currentHexGrid.ColorCell (coordinates, new Color (1F, 1F, 1F));
 		}
 	}
 }

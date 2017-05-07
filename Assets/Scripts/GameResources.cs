@@ -6,6 +6,8 @@ using System.Collections;
 /// </summary>
 public static class GameResources
 {
-	
+	public static Material glowMaterial = Resources.Load("Materials/glowMaterial") as Material;
+
+	public static GameObject hexGrid = Resources.Load("Hex Grid") as GameObject;
 }
 
