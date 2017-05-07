@@ -7,7 +7,7 @@ public class HexMesh : MonoBehaviour {
 	Mesh hexMesh;
 	MeshCollider meshCollider;
 	List<Vector3> vertices;
-	List<Color> colors;
+	public List<Color> colors;
 	List<int> triangles;
 
 	void Awake () {
