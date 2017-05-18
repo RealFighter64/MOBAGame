@@ -7,6 +7,9 @@ public class CharacterAnimation : MonoBehaviour
 	bool moving;
 	public bool Moving { set { moving = value; } }
 
+	bool dead;
+	public bool Dead { set { dead = value; } }
+
 	Animator animator;
 
 	// Use this for initialization
@@ -19,6 +22,7 @@ public class CharacterAnimation : MonoBehaviour
 	void Update ()
 	{
 		animator.SetBool ("Moving", moving);
+		animator.SetBool ("Dead", dead);
 	}
 }
 
