@@ -15,7 +15,9 @@ public class MoveButton : MonoBehaviour {
 	}
 
 	void OnPointerClick() {
-		GameInformation.characters [0].charMovement.StartMoving ();
+		foreach (Character character in GameInformation.characters) {
+			character.charMovement.StartMoving ();
+		}
 		Debug.Log ("click");
 	}
 

@@ -10,12 +10,18 @@ public class CharacterAnimation : MonoBehaviour
 	bool dead;
 	public bool Dead { set { dead = value; } }
 
+	bool attacking;
+	public bool Attacking { set { attacking = value; } }
+
+	bool impact;
+	public bool Impact { set { impact = value; } }
+
 	Animator animator;
 
 	// Use this for initialization
 	void Start ()
 	{
-		animator = GetComponent<Animator> ();
+		animator = GetComponentInChildren<Animator> ();
 	}
 	
 	// Update is called once per frame
@@ -23,6 +29,14 @@ public class CharacterAnimation : MonoBehaviour
 	{
 		animator.SetBool ("Moving", moving);
 		animator.SetBool ("Dead", dead);
+		if (attacking) {
+			animator.SetTrigger ("Attacking");
+			attacking = false;
+		}
+		if (impact) {
+			animator.SetTrigger ("Impact");
+			impact = false;
+		}
 	}
 }
 

@@ -24,7 +24,7 @@ public class CharacterMovement : MonoBehaviour {
 		pathForMovement = GameInformation.currentPath;
 		if (moving == true && pathForMovement.ValidPath ()) {
 			transform.position = Vector3.MoveTowards (transform.position, pathForMovement.hexCoords [currentIndex].CentreToWorldPosition (), 0.1F);
-			transform.LookAt (pathForMovement.hexCoords [currentIndex].CentreToWorldPosition ());
+			LookAt (pathForMovement.hexCoords [currentIndex]);
 			if (transform.position == pathForMovement.hexCoords [currentIndex].CentreToWorldPosition()) {
 				character.position = pathForMovement.hexCoords [currentIndex];
 				currentIndex++;
@@ -44,13 +44,18 @@ public class CharacterMovement : MonoBehaviour {
 			if (pathForMovement.character.gameObject == this.gameObject) {
 				if (pathForMovement.hexCoords.Length > 1 && pathForMovement.ValidPath ()) {
 					moving = true;
-					Debug.Log ("moving");
 				} else {
 					GameInformation.currentPath = new CharacterPath ();
 				}
-			} else {
-				Debug.Log ("nawt moving");
 			}
 		}
+	}
+
+	public void LookAt(HexCoordinates coords) {
+		transform.LookAt (coords.CentreToWorldPosition ());
+	}
+
+	public void InitPosition (HexCoordinates position) {
+		transform.position = position.CentreToWorldPosition();
 	}
 }

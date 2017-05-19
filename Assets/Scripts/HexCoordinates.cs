@@ -11,14 +11,28 @@ public struct HexCoordinates
 
 	public int Y { get { return -X - Z; } }
 
-	public static HexCoordinates[] neighbours = {
-		new HexCoordinates(0, 1),
-		new HexCoordinates(1, 0),
-		new HexCoordinates(1, -1),
-		new HexCoordinates(0, -1),
-		new HexCoordinates(-1, 0),
-		new HexCoordinates(-1, 1)
-	};
+	public HexCoordinates[] CellNeighbours {
+		get {
+			HexCoordinates[] tempNeighbours = new HexCoordinates[6];
+			for (int i = 0; i < 6; i++) {
+				tempNeighbours [i] = neighbours [i] + this;
+			}
+			return tempNeighbours;
+		}
+	}
+
+	public static HexCoordinates[] neighbours;
+
+	static HexCoordinates() {
+		neighbours = new HexCoordinates[6] {
+			new HexCoordinates(0, 1),
+			new HexCoordinates(1, 0),
+			new HexCoordinates(1, -1),
+			new HexCoordinates(0, -1),
+			new HexCoordinates(-1, 0),
+			new HexCoordinates(-1, 1)
+		};
+	}
 
 	public HexCoordinates (int x, int z)
 	{
