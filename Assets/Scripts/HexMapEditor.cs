@@ -72,11 +72,13 @@ public class HexMapEditor : MonoBehaviour
 		if (hexCoords != new HexCoordinates (1000, 1000)) {
 			if (GameInformation.IndexOfCharacter (hexCoords) == -1) {
 				if (pathStarted) {
-					if (!GameInformation.currentPath.InPath (hexCoords)) {
-						List<HexCoordinates> coordList = new List<HexCoordinates> ();
-						coordList.AddRange (GameInformation.currentPath.hexCoords);
-						coordList.Add (hexCoords);
-						GameInformation.currentPath = new CharacterPath (coordList.ToArray (), currentCharacter);
+					if (currentCharacter.team1 == GameInformation.player1Turn) {
+						if (!GameInformation.currentPath.InPath (hexCoords)) {
+							List<HexCoordinates> coordList = new List<HexCoordinates> ();
+							coordList.AddRange (GameInformation.currentPath.hexCoords);
+							coordList.Add (hexCoords);
+							GameInformation.currentPath = new CharacterPath (coordList.ToArray (), currentCharacter);
+						}
 					}
 				}
 			}
@@ -89,12 +91,14 @@ public class HexMapEditor : MonoBehaviour
 		if (hexCoords != new HexCoordinates (1000, 1000)) {
 			if (GameInformation.IndexOfCharacter (hexCoords) != -1) {
 				currentCharacter = GameInformation.characters [GameInformation.IndexOfCharacter (hexCoords)];
-				pathStarted = true;
-				if (!GameInformation.currentPath.InPath (hexCoords)) {
-					List<HexCoordinates> coordList = new List<HexCoordinates> ();
-					coordList.AddRange (GameInformation.currentPath.hexCoords);
-					coordList.Add (hexCoords);
-					GameInformation.currentPath = new CharacterPath (coordList.ToArray (), currentCharacter);
+				if (currentCharacter.team1 == GameInformation.player1Turn) {
+					pathStarted = true;
+					if (!GameInformation.currentPath.InPath (hexCoords)) {
+						List<HexCoordinates> coordList = new List<HexCoordinates> ();
+						coordList.AddRange (GameInformation.currentPath.hexCoords);
+						coordList.Add (hexCoords);
+						GameInformation.currentPath = new CharacterPath (coordList.ToArray (), currentCharacter);
+					}
 				}
 			} else {
 				pathStarted = false;
