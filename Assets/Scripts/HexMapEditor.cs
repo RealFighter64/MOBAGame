@@ -113,10 +113,12 @@ public class HexMapEditor : MonoBehaviour
 				currentCharacter = GameInformation.characters [GameInformation.IndexOfCharacter (hexCoords)];
 				if (GameInformation.currentAttackPath.InPath (hexCoords)) {
 					Character tempCharacter = GameInformation.currentlySelectedCharacter;
-					tempCharacter.charMovement.LookAt (currentCharacter.position);
-					tempCharacter.charAnimation.Attacking = true;
-					currentCharacter.TakeDamage (tempCharacter.damage);
-					GameInformation.attackButton.Attack ();
+					if (tempCharacter.team1 != currentCharacter.team1) {
+						tempCharacter.charMovement.LookAt (currentCharacter.position);
+						tempCharacter.charAnimation.Attacking = true;
+						currentCharacter.TakeDamage (tempCharacter.damage);
+						GameInformation.attackButton.Attack ();
+					}
 				}
 			}
 		}

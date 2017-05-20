@@ -28,7 +28,9 @@ public class AttackButton : MonoBehaviour
 					List<HexCoordinates> tempCoords = new List<HexCoordinates>();
 					foreach (HexCoordinates neighbour in currentCharacter.position.CellNeighbours) {
 						if(GameInformation.IndexOfCharacter(neighbour) != -1) {
-							tempCoords.Add(neighbour);
+							if(GameInformation.characters[GameInformation.IndexOfCharacter(neighbour)].team1 != currentCharacter.team1) {
+								tempCoords.Add(neighbour);
+							}
 						}
 					}
 					if(tempCoords.Count != 0) {
