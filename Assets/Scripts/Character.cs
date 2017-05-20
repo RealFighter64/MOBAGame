@@ -10,6 +10,7 @@ public class Character : MonoBehaviour
 	public HexCoordinates position;
 	public float startingHealth;
 	public float damage;
+	public bool team1;
 	public HexCoordinates startingPosition;
 
 	//[HideInInspector]
@@ -34,6 +35,11 @@ public class Character : MonoBehaviour
 		startOfDeathAnimation = 0;
 		position = startingPosition;
 		charMovement.InitPosition (position);
+		if (team1) {
+			characterRenderer.material.color = new Color(1F, 0.5F, 0.5F);
+		} else {
+			characterRenderer.material.color = new Color(0.5F, 0.5F, 1F);
+		}
 	}
 	
 	// Update is called once per frame

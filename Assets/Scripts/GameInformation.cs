@@ -13,6 +13,9 @@ public class GameInformation : MonoBehaviour {
 	public static HexGrid currentHexGrid;
 	public static RTS_Camera currentCamera;
 	public static AttackButton attackButton;
+	public static int turnNumber;
+
+	public static bool player1Turn { get { return turnNumber % 2 == 1; } }
 
 	public static bool attackMode;
 
@@ -31,9 +34,11 @@ public class GameInformation : MonoBehaviour {
 		attackMode = false;
 		attackButton = currentHexGrid.GetComponentInChildren<AttackButton> ();
 		currentlySelectedCharacter = null;
+		turnNumber = 1;
 	}
 
 	public static void SpawnCharacter(Character character) {
+		character.team1 = player1Turn;
 		characters.Add (character);
 	}
 
@@ -53,5 +58,9 @@ public class GameInformation : MonoBehaviour {
 			}
 		}
 		return -1;
+	}
+
+	public static void PlayerTurn() {
+		turnNumber++;
 	}
 }
