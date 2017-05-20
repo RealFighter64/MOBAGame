@@ -12,6 +12,7 @@ public static class GameResources
 	// Prefabs
 	public static GameObject hexGrid = Resources.Load("Prefabs/Hex Grid") as GameObject;
 	public static GameObject knightCharacter = Resources.Load("Prefabs/KnightCharacter") as GameObject;
+	public static GameObject wolfCharacter = Resources.Load("Prefabs/Wolf") as GameObject;
 	public static GameObject rtsCamera = Resources.Load("Prefabs/RTS_Camera") as GameObject;
 }
 
