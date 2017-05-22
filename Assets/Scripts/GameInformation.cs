@@ -33,6 +33,7 @@ public class GameInformation : MonoBehaviour {
 		currentHexGrid = defaultHexGrid;
 		player1Camera = defaultPlayer1Camera;
 		player2Camera = defaultPlayer2Camera;
+		player2Camera.gameObject.SetActive (false);
 		currentCamera = player1Camera;
 		currentPath = new CharacterPath ();
 		currentAttackPath = new CharacterPath ();

@@ -34,10 +34,12 @@ public class HexCell : MonoBehaviour
 		} else if (GameInformation.currentAttackPath.InPath (coordinates)) {
 			selectedGlow.UpdateCell (this.coordinates, true, true);
 			GameInformation.currentHexGrid.ColorCell (coordinates, new Color (1F, 0.4F, 0.4F));
+			prevColoured = true;
 		} else if (focus) {
 			selectedGlow.Reset (this.coordinates);
 			selectedGlow.InitFocus (this.coordinates);
 			GameInformation.currentHexGrid.ColorCell (coordinates, new Color (0.4F, 0.4F, 1F));
+			prevColoured = true;
 		} else {
 			if (prevColoured) {
 				selectedGlow.Reset (this.coordinates);
