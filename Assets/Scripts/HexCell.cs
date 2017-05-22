@@ -6,11 +6,14 @@ public class HexCell : MonoBehaviour
 	public HexCoordinates coordinates;
 	public Color color;
 
+	bool prevColoured;
+
 	SelectedGlow selectedGlow;
 	bool focus;
 
 	void Start() {
 		selectedGlow = GetComponentInChildren<SelectedGlow> ();
+		prevColoured = true;
 	}
 
 	void Update () {
@@ -27,6 +30,7 @@ public class HexCell : MonoBehaviour
 				selectedGlow.UpdateCell (this.coordinates, false, false);
 				GameInformation.currentHexGrid.ColorCell (coordinates, new Color (1F, 0.4F, 0.4F));
 			}
+			prevColoured = true;
 		} else if (GameInformation.currentAttackPath.InPath (coordinates)) {
 			selectedGlow.UpdateCell (this.coordinates, true, true);
 			GameInformation.currentHexGrid.ColorCell (coordinates, new Color (1F, 0.4F, 0.4F));
@@ -35,8 +39,11 @@ public class HexCell : MonoBehaviour
 			selectedGlow.InitFocus (this.coordinates);
 			GameInformation.currentHexGrid.ColorCell (coordinates, new Color (0.4F, 0.4F, 1F));
 		} else {
-			selectedGlow.Reset (this.coordinates);
-			GameInformation.currentHexGrid.ColorCell (coordinates, new Color (1F, 1F, 1F));
+			if (prevColoured) {
+				selectedGlow.Reset (this.coordinates);
+				GameInformation.currentHexGrid.ColorCell (coordinates, new Color (0.25F, 0.29F, 0.15F));
+				prevColoured = false;
+			}
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RTS_Cam;
+using UnityEngine.Networking;
 
 /// <summary>
 /// 	A container for all global game information.
@@ -11,9 +12,16 @@ public class GameInformation : MonoBehaviour {
 	public static CharacterPath currentAttackPath;
 	public static Character currentlySelectedCharacter;
 	public static HexGrid currentHexGrid;
+	public HexGrid defaultHexGrid;
 	public static RTS_Camera currentCamera;
+	public static RTS_Camera player1Camera;
+	public static RTS_Camera player2Camera;
+	public RTS_Camera defaultPlayer1Camera;
+	public RTS_Camera defaultPlayer2Camera;
 	public static AttackButton attackButton;
 	public static int turnNumber;
+	public static int maximumMana;
+	public static int currentMana;
 
 	public static bool player1Turn { get { return turnNumber % 2 == 1; } }
 
@@ -22,12 +30,10 @@ public class GameInformation : MonoBehaviour {
 	public static List<Character> characters;
 
 	void Awake () {
-		DontDestroyOnLoad (gameObject);
-		currentHexGrid = Instantiate (GameResources.hexGrid).GetComponent<HexGrid> ();
-		currentHexGrid.transform.position = Vector3.zero;
-		currentCamera = Instantiate (GameResources.rtsCamera).GetComponent<RTS_Camera> ();
-		currentCamera.transform.position = new Vector3 (10, 10, 10);
-		currentCamera.transform.rotation = Quaternion.Euler (60, 0, 0);
+		currentHexGrid = defaultHexGrid;
+		player1Camera = defaultPlayer1Camera;
+		player2Camera = defaultPlayer2Camera;
+		currentCamera = player1Camera;
 		currentPath = new CharacterPath ();
 		currentAttackPath = new CharacterPath ();
 		characters = new List<Character> ();
@@ -35,10 +41,18 @@ public class GameInformation : MonoBehaviour {
 		attackButton = currentHexGrid.GetComponentInChildren<AttackButton> ();
 		currentlySelectedCharacter = null;
 		turnNumber = 1;
+		maximumMana = 1;
+		currentMana = maximumMana;
 	}
 
 	public static void SpawnCharacter(Character character) {
 		character.team1 = player1Turn;
+		if (character.team1) {
+			character.startingPosition = new HexCoordinates (0, 0);
+		} else {
+			character.startingPosition = HexCoordinates.FromOffsetCoordinates (currentHexGrid.width-1, currentHexGrid.height-1);
+			character.transform.rotation = Quaternion.Euler (0, 180, 0);
+		}
 		characters.Add (character);
 	}
 
@@ -62,5 +76,26 @@ public class GameInformation : MonoBehaviour {
 
 	public static void PlayerTurn() {
 		turnNumber++;
+		if (player1Turn) {
+			currentCamera.gameObject.SetActive (false);
+			currentCamera = player1Camera;
+			currentCamera.gameObject.SetActive (true);
+		} else {
+			currentCamera.gameObject.SetActive (false);
+			currentCamera = player2Camera;
+			currentCamera.gameObject.SetActive (true);
+		}
+		currentHexGrid.GetComponentInChildren<HexMapEditor>().currentCamera = GameInformation.currentCamera.GetComponent<Camera> ();
+
+		if (player1Turn)
+			maximumMana++;
+
+		currentMana = maximumMana;
+
+		foreach (Character character in characters) {
+			character.attacked = false;
+			character.moved = false;
+			character.sleeping = false;
+		}
 	}
 }

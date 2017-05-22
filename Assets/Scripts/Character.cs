@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections;
 
 public class Character : MonoBehaviour
@@ -12,6 +11,9 @@ public class Character : MonoBehaviour
 	public float damage;
 	public bool team1;
 	public HexCoordinates startingPosition;
+	public bool attacked;
+	public bool moved;
+	public bool sleeping;
 
 	//[HideInInspector]
 	public float health;
@@ -20,16 +22,18 @@ public class Character : MonoBehaviour
 	public CharacterAnimation charAnimation;
 
 	private Renderer characterRenderer;
+	private ParticleSystem particles;
 
 	private float startOfDeathAnimation;
 
 	// Use this for initialization
 	void Start ()
 	{
-		
 		charMovement = gameObject.AddComponent<CharacterMovement> ();
 		charAnimation = gameObject.AddComponent<CharacterAnimation> ();
 		characterRenderer = GetComponentInChildren<Renderer> ();
+		Debug.LogWarning(GetComponentInChildren<ParticleSystem>());
+		particles = GetComponentInChildren<ParticleSystem> ();
 		position = new HexCoordinates (0, 0);
 		health = startingHealth;
 		startOfDeathAnimation = 0;
@@ -40,12 +44,21 @@ public class Character : MonoBehaviour
 		} else {
 			characterRenderer.material.color = new Color(0.5F, 0.5F, 1F);
 		}
+		attacked = false;
+		sleeping = true;
+		moved = false;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
 		charAnimation.Moving = charMovement.Moving;
+
+		if (sleeping) {
+			particles.gameObject.SetActive (true);
+		} else {
+			particles.gameObject.SetActive (false);
+		}
 
 		if (health <= 0)
 			Die ();

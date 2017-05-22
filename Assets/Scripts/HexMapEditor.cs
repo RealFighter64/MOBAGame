@@ -13,35 +13,42 @@ public class HexMapEditor : MonoBehaviour
 
 	private Character currentCharacter;
 
+	public Camera currentCamera;
+
 	bool prevClick;
 
 	bool pathStarted;
 
-	void Awake ()
+	public bool pathAvailable;
+
+	void Start ()
 	{
 		SelectColor (0);
 		pathStarted = false;
+		pathAvailable = true;
+		currentCamera = GameInformation.currentCamera.GetComponent<Camera> ();
 	}
 
 	void Update ()
 	{
-		
-		if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject ()) {
-			if (prevClick == true) {
-				if (!GameInformation.attackMode) {
-					HandleInput ();
-				}
-			} else {
-				if (!GameInformation.attackMode) {
-					ResetPath ();
-					HandleFirstInput ();
+		if (pathAvailable) {
+			if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject ()) {
+				if (prevClick == true) {
+					if (!GameInformation.attackMode) {
+						HandleInput ();
+					}
 				} else {
-					HandleAttackInput ();
+					if (!GameInformation.attackMode) {
+						ResetPath ();
+						HandleFirstInput ();
+					} else {
+						HandleAttackInput ();
+					}
 				}
+				prevClick = true;
+			} else {
+				prevClick = false;
 			}
-			prevClick = true;
-		} else {
-			prevClick = false;
 		}
 	}
 
@@ -52,7 +59,7 @@ public class HexMapEditor : MonoBehaviour
 
 	HexCoordinates GetInput ()
 	{
-		Ray inputRay = Camera.main.ScreenPointToRay (Input.mousePosition);
+		Ray inputRay = currentCamera.ScreenPointToRay (Input.mousePosition);
 		RaycastHit hit;
 		if (Physics.Raycast (inputRay, out hit)) {
 			if (hit.collider.name == "HexMesh") {
@@ -112,12 +119,17 @@ public class HexMapEditor : MonoBehaviour
 			if (GameInformation.IndexOfCharacter (hexCoords) != -1) {
 				currentCharacter = GameInformation.characters [GameInformation.IndexOfCharacter (hexCoords)];
 				if (GameInformation.currentAttackPath.InPath (hexCoords)) {
-					Character tempCharacter = GameInformation.currentlySelectedCharacter;
-					if (tempCharacter.team1 != currentCharacter.team1) {
-						tempCharacter.charMovement.LookAt (currentCharacter.position);
-						tempCharacter.charAnimation.Attacking = true;
-						currentCharacter.TakeDamage (tempCharacter.damage);
-						GameInformation.attackButton.Attack ();
+					if (GameInformation.IndexOfCharacter (hexCoords) != -1) {
+						Character tempCharacter = GameInformation.currentlySelectedCharacter;
+						if (GameInformation.characters [GameInformation.IndexOfCharacter (hexCoords)].team1 != tempCharacter.team1) {
+							if (tempCharacter.team1 != currentCharacter.team1) {
+								tempCharacter.charMovement.LookAt (currentCharacter.position);
+								tempCharacter.charAnimation.Attacking = true;
+								tempCharacter.attacked = true;
+								currentCharacter.TakeDamage (tempCharacter.damage);
+								GameInformation.attackButton.Attack ();
+							}
+						}
 					}
 				}
 			}

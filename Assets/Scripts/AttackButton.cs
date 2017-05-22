@@ -25,22 +25,20 @@ public class AttackButton : MonoBehaviour
 			try {
 				currentCharacter = GameInformation.currentlySelectedCharacter;
 				if(currentCharacter.team1 == GameInformation.player1Turn) {
-					List<HexCoordinates> tempCoords = new List<HexCoordinates>();
-					foreach (HexCoordinates neighbour in currentCharacter.position.CellNeighbours) {
-						if(GameInformation.IndexOfCharacter(neighbour) != -1) {
-							if(GameInformation.characters[GameInformation.IndexOfCharacter(neighbour)].team1 != currentCharacter.team1) {
-								tempCoords.Add(neighbour);
-							}
+					if(currentCharacter.attacked == false) {
+						List<HexCoordinates> tempCoords = new List<HexCoordinates>();
+						foreach (HexCoordinates neighbour in currentCharacter.position.CellNeighbours) {
+							tempCoords.Add(neighbour);
+						}
+						if(tempCoords.Count != 0) {
+							CharacterPath attackingPath = new CharacterPath (tempCoords.ToArray(), currentCharacter);
+							GameInformation.currentAttackPath = attackingPath;
+							buttonText.text = "Cancel";
+							GameInformation.attackMode = true;
 						}
 					}
-					if(tempCoords.Count != 0) {
-						CharacterPath attackingPath = new CharacterPath (tempCoords.ToArray(), currentCharacter);
-						GameInformation.currentAttackPath = attackingPath;
-						buttonText.text = "Cancel";
-						GameInformation.attackMode = true;
-					}
 				}
-			} catch (Exception e) {
+			} catch {
 				GameInformation.attackMode = false;
 				buttonText.text = "Attack";
 			}
