@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RTS_Cam;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 /// <summary>
 /// 	A container for all global game information.
@@ -13,6 +14,7 @@ public class GameInformation : MonoBehaviour {
 	public static Character currentlySelectedCharacter;
 	public static HexGrid currentHexGrid;
 	public HexGrid defaultHexGrid;
+	public Text manaText;
 	public static RTS_Camera currentCamera;
 	public static RTS_Camera player1Camera;
 	public static RTS_Camera player2Camera;
@@ -44,6 +46,10 @@ public class GameInformation : MonoBehaviour {
 		turnNumber = 1;
 		maximumMana = 1;
 		currentMana = maximumMana;
+	}
+
+	void Update() {
+		manaText.text = "Current Mana: " + currentMana;
 	}
 
 	public static void SpawnCharacter(Character character) {

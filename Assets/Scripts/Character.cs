@@ -14,6 +14,7 @@ public class Character : MonoBehaviour
 	public bool attacked;
 	public bool moved;
 	public bool sleeping;
+	public int manaCost;
 
 	//[HideInInspector]
 	public float health;
