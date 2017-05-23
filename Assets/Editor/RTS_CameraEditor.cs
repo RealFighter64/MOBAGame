@@ -76,8 +76,10 @@ namespace RTS_Cam
             }
             if (camera.limitMap)
             {
-                camera.limitX = EditorGUILayout.FloatField("Limit X: ", camera.limitX);
-                camera.limitY = EditorGUILayout.FloatField("Limit Y: ", camera.limitY);
+				camera.minX = EditorGUILayout.FloatField("Minimum X: ", camera.minX);
+                camera.maxX = EditorGUILayout.FloatField("Maximum X: ", camera.maxX);
+				camera.minY = EditorGUILayout.FloatField("Minimum Y: ", camera.minY);
+				camera.maxY = EditorGUILayout.FloatField("Maximum Y: ", camera.maxY);
             }
 
             GUILayout.Label("Follow target", EditorStyles.boldLabel);

@@ -58,8 +58,10 @@ namespace RTS_Cam
         #region MapLimits
 
         public bool limitMap = true;
-        public float limitX = 50f; //x limit of map
-        public float limitY = 50f; //z limit of map
+        public float minX = -50f; //x limit of map
+		public float maxX = 50f; //x limit of map
+        public float minY = -50f; //z limit of map
+		public float maxY = -50f; //z limit of map
 
         #endregion
 
@@ -303,9 +305,9 @@ namespace RTS_Cam
             if (!limitMap)
                 return;
                 
-            m_Transform.position = new Vector3(Mathf.Clamp(m_Transform.position.x, -limitX, limitX),
+            m_Transform.position = new Vector3(Mathf.Clamp(m_Transform.position.x, minX, maxX),
                 m_Transform.position.y,
-                Mathf.Clamp(m_Transform.position.z, -limitY, limitY));
+                Mathf.Clamp(m_Transform.position.z, minY, maxY));
         }
 
         /// <summary>
