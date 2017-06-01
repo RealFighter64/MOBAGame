@@ -8,6 +8,7 @@ public class TurnButton : MonoBehaviour {
 
 	public void EndTurn() {
 		GameInformation.PlayerTurn();
+        GameInformation.SoldierOrMana = true;
 	}
 
 }

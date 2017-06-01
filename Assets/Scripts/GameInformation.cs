@@ -22,10 +22,14 @@ public class GameInformation : MonoBehaviour {
 	public RTS_Camera defaultPlayer2Camera;
 	public static AttackButton attackButton;
 	public static int turnNumber;
-	public static int maximumMana;
-	public static int currentMana;
+	public static int maximumMana1;
+    public static int maximumMana2;
+	public static int currentMana1;
+    public static int currentMana2;
 
-	public static bool player1Turn { get { return turnNumber % 2 == 1; } }
+    public static bool SoldierOrMana = true;
+
+    public static bool player1Turn { get { return turnNumber % 2 == 1; } }
 
 	public static bool attackMode;
 
@@ -44,12 +48,21 @@ public class GameInformation : MonoBehaviour {
 		attackButton = currentHexGrid.GetComponentInChildren<AttackButton> ();
 		currentlySelectedCharacter = null;
 		turnNumber = 1;
-		maximumMana = 1;
-		currentMana = maximumMana;
-	}
+		maximumMana1 = 1;
+        maximumMana2 = 1;
+		currentMana1 = maximumMana1;
+        currentMana2 = maximumMana2;
+    }
 
 	void Update() {
-		manaText.text = "Current Mana: " + currentMana;
+        if (player1Turn == true)
+        {
+            manaText.text = "Current Mana: " + currentMana1;
+        } else
+        {
+            manaText.text = "Current Mana: " + currentMana2;
+        }
+            
 	}
 
 	public static void SpawnCharacter(Character character) {
@@ -94,10 +107,11 @@ public class GameInformation : MonoBehaviour {
 		}
 		currentHexGrid.GetComponentInChildren<HexMapEditor>().currentCamera = GameInformation.currentCamera.GetComponent<Camera> ();
 
-		if (player1Turn)
-			maximumMana++;
+		//if (player1Turn)
+			//maximumMana++;
 
-		currentMana = maximumMana;
+		currentMana1 = maximumMana1;
+        currentMana2 = maximumMana2;
 
 		foreach (Character character in characters) {
 			character.attacked = false;
