@@ -33,7 +33,6 @@ public class Character : MonoBehaviour
 		charMovement = gameObject.AddComponent<CharacterMovement> ();
 		charAnimation = gameObject.AddComponent<CharacterAnimation> ();
 		characterRenderer = GetComponentInChildren<Renderer> ();
-		Debug.LogWarning(GetComponentInChildren<ParticleSystem>());
 		particles = GetComponentInChildren<ParticleSystem> ();
 		position = new HexCoordinates (0, 0);
 		health = startingHealth;

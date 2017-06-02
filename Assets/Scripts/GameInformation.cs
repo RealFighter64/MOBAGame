@@ -14,7 +14,7 @@ public class GameInformation : MonoBehaviour {
 	public static Character currentlySelectedCharacter;
 	public static HexGrid currentHexGrid;
 	public HexGrid defaultHexGrid;
-	public Text manaText;
+	public static Text manaText;
 	public static RTS_Camera currentCamera;
 	public static RTS_Camera player1Camera;
 	public static RTS_Camera player2Camera;
@@ -48,6 +48,7 @@ public class GameInformation : MonoBehaviour {
 		attackButton = currentHexGrid.GetComponentInChildren<AttackButton> ();
 		currentlySelectedCharacter = null;
 		turnNumber = 1;
+		manaText = currentHexGrid.transform.Find ("Hex Map Editor/Mana Text").GetComponent<Text>();
 		maximumMana1 = 1;
         maximumMana2 = 1;
 		currentMana1 = maximumMana1;

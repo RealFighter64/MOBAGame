@@ -19,7 +19,6 @@ public class MoveButton : MonoBehaviour {
 			if(!character.sleeping && !character.moved)
 				character.charMovement.StartMoving ();
 		}
-		Debug.Log ("click");
 	}
 
 	// Update is called once per frame
