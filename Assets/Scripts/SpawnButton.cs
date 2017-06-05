@@ -4,6 +4,24 @@ using System.Collections;
 
 public class SpawnButton : MonoBehaviour
 {
+	Button spawnKnightButton;
+	Button moreManaButton;
+
+	void Start() {
+		spawnKnightButton = transform.Find ("Spawn Knight").GetComponent<Button> ();
+		moreManaButton = transform.Find ("More Mana").GetComponent<Button> ();
+	}
+
+	void Update() {
+		if (!GameInformation.SoldierOrMana) {
+			spawnKnightButton.interactable = false;
+			moreManaButton.interactable = false;
+		} else {
+			spawnKnightButton.interactable = true;
+			moreManaButton.interactable = true;
+		}
+	}
+
 	public void SpawnKnight() {
 		int manaCost = GameResources.knightCharacter.GetComponent<Character> ().manaCost;
 		//if(manaCost <= GameInformation.currentMana){
