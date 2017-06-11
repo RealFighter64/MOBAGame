@@ -67,15 +67,18 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 			initialCharacter.name = Time.time.ToString();
 			GameInformation.SpawnCharacter(initialCharacter);
 			GameInformation.currentMana1 -= manaCost;
+			GameInformation.cardDeck.cardArray.Remove (this);
+			GameInformation.cardDeck.UpdateDeck ();
+			Destroy (this.gameObject);
 		}
 		if (GameInformation.player1Turn == false && manaCost <= GameInformation.currentMana2) {
 			Character initialCharacter = Instantiate(character.gameObject).GetComponent<Character>();
 			initialCharacter.name = Time.time.ToString();
 			GameInformation.SpawnCharacter(initialCharacter);
 			GameInformation.currentMana2 -= manaCost;
+			GameInformation.cardDeck.cardArray.Remove (this);
+			GameInformation.cardDeck.UpdateDeck ();
+			Destroy (this.gameObject);
 		}
-		GameInformation.cardDeck.cardArray.Remove (this);
-		GameInformation.cardDeck.UpdateDeck ();
-		Destroy (this.gameObject);
 	}
 }

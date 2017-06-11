@@ -64,7 +64,7 @@ public class GameInformation : MonoBehaviour {
 		currentMana1 = maximumMana1;
         currentMana2 = maximumMana2;
 		characterObjects [0] = GameResources.wolfCharacter.GetComponent<Character>();
-		characterObjects [1] = GameResources.knightCharacter.GetComponent<Character>();
+		characterObjects [1] = GameResources.dragonCharacter.GetComponent<Character>();
 		cardDeck = currentHexGrid.GetComponentInChildren<Deck> ();
     }
 
