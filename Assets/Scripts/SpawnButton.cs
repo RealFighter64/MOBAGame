@@ -39,18 +39,18 @@ public class SpawnButton : MonoBehaviour
 
 	public void SpawnWolf() {
 		int manaCost = GameResources.wolfCharacter.GetComponent<Character>().manaCost;
-        if (GameInformation.player1Turn == true && manaCost <= GameInformation.currentMana1) {
-            Character initialCharacter = Instantiate(GameResources.wolfCharacter).GetComponent<Character>();
-            initialCharacter.name = Time.time.ToString();
-            GameInformation.SpawnCharacter(initialCharacter);
-            GameInformation.currentMana1 -= manaCost;
-        }
-        if (GameInformation.player1Turn == false && manaCost <= GameInformation.currentMana2) {
-            Character initialCharacter = Instantiate(GameResources.wolfCharacter).GetComponent<Character>();
-            initialCharacter.name = Time.time.ToString();
-            GameInformation.SpawnCharacter(initialCharacter);
-            GameInformation.currentMana2 -= manaCost;
-        }
+		if (GameInformation.player1Turn == true && manaCost <= GameInformation.currentMana1) {
+			Character initialCharacter = Instantiate(GameResources.wolfCharacter).GetComponent<Character>();
+			initialCharacter.name = Time.time.ToString();
+			GameInformation.SpawnCharacter(initialCharacter);
+			GameInformation.currentMana1 -= manaCost;
+		}
+		if (GameInformation.player1Turn == false && manaCost <= GameInformation.currentMana2) {
+			Character initialCharacter = Instantiate(GameResources.wolfCharacter).GetComponent<Character>();
+			initialCharacter.name = Time.time.ToString();
+			GameInformation.SpawnCharacter(initialCharacter);
+			GameInformation.currentMana2 -= manaCost;
+		}
 	}
 
 	public void ManaButton(){ 

@@ -18,14 +18,22 @@ public class GameInformation : MonoBehaviour {
 	public static RTS_Camera currentCamera;
 	public static RTS_Camera player1Camera;
 	public static RTS_Camera player2Camera;
+	public static GameObject cardPanelPlayer1;
+	public static GameObject cardPanelPlayer2;
 	public RTS_Camera defaultPlayer1Camera;
 	public RTS_Camera defaultPlayer2Camera;
+	public GameObject defaultCardPanelPlayer1;
+	public GameObject defaultCardPanelPlayer2;
 	public static AttackButton attackButton;
 	public static int turnNumber;
 	public static int maximumMana1;
     public static int maximumMana2;
 	public static int currentMana1;
     public static int currentMana2;
+
+	public static Character[] characterObjects = new Character[2];
+
+	public static Deck cardDeck;
 
     public static bool SoldierOrMana = true;
 
@@ -39,6 +47,8 @@ public class GameInformation : MonoBehaviour {
 		currentHexGrid = defaultHexGrid;
 		player1Camera = defaultPlayer1Camera;
 		player2Camera = defaultPlayer2Camera;
+		cardPanelPlayer1 = defaultCardPanelPlayer1;
+		cardPanelPlayer2 = defaultCardPanelPlayer2;
 		player2Camera.gameObject.SetActive (false);
 		currentCamera = player1Camera;
 		currentPath = new CharacterPath ();
@@ -53,6 +63,9 @@ public class GameInformation : MonoBehaviour {
         maximumMana2 = 1;
 		currentMana1 = maximumMana1;
         currentMana2 = maximumMana2;
+		characterObjects [0] = GameResources.wolfCharacter.GetComponent<Character>();
+		characterObjects [1] = GameResources.knightCharacter.GetComponent<Character>();
+		cardDeck = currentHexGrid.GetComponentInChildren<Deck> ();
     }
 
 	void Update() {
@@ -101,12 +114,20 @@ public class GameInformation : MonoBehaviour {
 			currentCamera.gameObject.SetActive (false);
 			currentCamera = player1Camera;
 			currentCamera.gameObject.SetActive (true);
+			cardPanelPlayer1.SetActive (true);
+			cardDeck = cardPanelPlayer1.GetComponent<Deck> ();
+			cardPanelPlayer2.SetActive(false);
 		} else {
 			currentCamera.gameObject.SetActive (false);
 			currentCamera = player2Camera;
 			currentCamera.gameObject.SetActive (true);
+			cardPanelPlayer1.SetActive(false);
+			cardDeck = cardPanelPlayer2.GetComponent<Deck> ();
+			cardPanelPlayer2.SetActive(true);
 		}
 		currentHexGrid.GetComponentInChildren<HexMapEditor>().currentCamera = GameInformation.currentCamera.GetComponent<Camera> ();
+
+		cardDeck.DrawCard ();
 
 		//if (player1Turn)
 			//maximumMana++;
