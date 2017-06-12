@@ -71,10 +71,10 @@ public class GameInformation : MonoBehaviour {
 	void Update() {
         if (player1Turn == true)
         {
-            manaText.text = "Current Mana: " + currentMana1;
+			manaText.text = "Current Mana: " + currentMana1 + " / " + maximumMana1;
         } else
         {
-            manaText.text = "Current Mana: " + currentMana2;
+			manaText.text = "Current Mana: " + currentMana2 + " / " + maximumMana2;
         }
             
 	}
